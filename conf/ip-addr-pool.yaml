@@ -1,0 +1,23 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: metallb-ip-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.56.51-192.168.56.80         #외부에서 접근가능한 IP 대역 지정
+  autoAssign: true
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  namespace: metallb-system
+  name: example
+spec:
+  ipAddressPools:
+  - metallb-ip-pool	    #직전 설정한 ip-pool 객체 지정	
+  nodeSelectors:	      # ip-pool을 이용해 접근하는 노드 지정 worker1, worker2 지정
+  - matchLabels:
+      kubernetes.io/hostname: worker1		
+  - matchLabels:
+      kubernetes.io/hostname: worker2
