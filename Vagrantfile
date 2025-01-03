@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "master" do |node|
     node.vm.hostname = "master"
     node.vm.network "private_network", ip: "192.168.56.201"
-    node.provider "virtualbox" do |vb|
+    node.vm.provider "virtualbox" do |vb|
       vb.name = "master"
     end
     node.vm.provision "shell" do |s|
