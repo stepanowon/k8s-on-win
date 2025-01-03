@@ -12,6 +12,9 @@ Vagrant.configure("2") do |config|
   config.vm.define "master" do |node|
     node.vm.hostname = "master"
     node.vm.network "private_network", ip: "192.168.56.201"
+    node.provider "virtualbox" do |vb|
+      vb.name = "master"
+    end
     node.vm.provision "shell" do |s|
       s.name = "configure-firewall"
       s.path = "scripts/configure-control-plane-firewall.sh"
@@ -25,6 +28,7 @@ Vagrant.configure("2") do |config|
       node.vm.hostname = "#{hostname}"
       node.vm.network "private_network", ip: "192.168.56.#{201 + i}"
       node.vm.provider "virtualbox" do |vb|
+        vb.name = "#{hostname}"
         vb.cpus = 1
         vb.memory = 2048
       end
