@@ -1,6 +1,7 @@
 # 로컬 머신에 멀티노드 k8s 클러스터 만들기
 
 [VirtualBox](https://www.virtualbox.org/)와 [Vagrant](https://www.vagrantup.com/) 최신 버전을 여러개의 VM을 실행할 수 있는 충분한 메모리를 가진 로컬 컴퓨터에 설치합니다. 
+* virtualbox는 반드시 확장팩까지 설치합니다.
 
 ## 기본 설치 사항
 - ubuntu-24.04
