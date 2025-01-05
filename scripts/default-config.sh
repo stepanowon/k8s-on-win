@@ -8,4 +8,6 @@ sed -i 's/security.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list.d/ubuntu
 apt update
 apt upgrade -y
 
+ufw disable
+
 apt install virtualbox-guest-additions-iso -y

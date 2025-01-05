@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "gutehall/ubuntu24-10"
+  config.vm.box = "gutehall/ubuntu24-04"
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 4096
@@ -15,11 +15,6 @@ Vagrant.configure("2") do |config|
     node.vm.provider "virtualbox" do |vb|
       vb.name = "master"
     end
-    node.vm.provision "shell" do |s|
-      s.name = "configure-firewall"
-      s.path = "scripts/configure-control-plane-firewall.sh"
-      s.privileged = true
-    end
   end
 
   (1..2).each do |i|
@@ -31,11 +26,6 @@ Vagrant.configure("2") do |config|
         vb.name = "worker#{'%01d' % i}"
         vb.cpus = 1
         vb.memory = 2048
-      end
-      node.vm.provision "shell" do |s|
-        s.name = "configure-firewall"
-        s.path = "scripts/configure-worker-node-firewall.sh"
-        s.privileged = true
       end
     end
   end
