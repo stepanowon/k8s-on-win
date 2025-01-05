@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "gutehall/ubuntu24-04"
+  config.vm.box = "gutehall/ubuntu24-10"
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 4096
