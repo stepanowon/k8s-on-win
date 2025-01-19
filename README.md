@@ -391,7 +391,7 @@ $ kubeadm token create --certificate-key  f233b68f4c1ba881553aad28737a594c3fe181
 kubeadm join 192.168.56.201:6443 --token rumtky.nkn0bjh0po0yxu9u --discovery-token-ca-cert-hash sha256:e002bd962b51c94a6eba26d37b93ee08c3717c53505309cb54eab7ece864160d --control-plane --certificate-key f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e
 ```
 
-#### control plane 추가 : 추가할 노드에서 실해
+#### control plane 추가 : 추가할 노드에서 실행
 ```
 # 앞에서 생성한 kubeadm join 명령문을 sudo 로 실행함
 $ sudo kubeadm join 192.168.56.201:6443 --token rumtky.nkn0bjh0po0yxu9u --discovery-token-ca-cert-hash sha256:e002bd962b51c94a6eba26d37b93ee08c3717c53505309cb54eab7ece864160d --control-plane --certificate-key f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e
