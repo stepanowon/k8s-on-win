@@ -12,3 +12,6 @@ DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -
 ufw disable
 
 apt install virtualbox-guest-additions-iso -y
+
+echo virtualbox-ext-pack virtualbox-ext-pack/license select true | debconf-set-selections
+DEBIAN_FRONTEND=noninteractive apt-get install -y virtualbox-ext-pack
