@@ -23,8 +23,6 @@ vagrant up
 vagrant reload
 
 # 사용자명과 초기 패스워드 : user1/asdf
-# 각 가상머신에 접속하여 다음 명령어를 실행
-sudo apt install virtualbox-ext-pack -y
 ```
 
 ## Control Plane 역할의 VM(마스터) 초기화
