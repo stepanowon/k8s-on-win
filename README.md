@@ -6,9 +6,10 @@
 ## 기본 설치 사항
 - ubuntu-24.04
 - node
-  * master : 192.168.56.201
-  * worker1 : 192.168.56.202
-  * worker2 : 192.168.56.203
+  * master : 192.168.56.201 - 2vcpu, 4GB Memory
+  * worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
+  * worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
+  * worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
 - git, containerd
 - kubeadm  
 

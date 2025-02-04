@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  (1..2).each do |i|
+  (1..3).each do |i|
     hostname = "worker#{'%01d' % i}"
     config.vm.define "#{hostname}" do |node|
       node.vm.hostname = "#{hostname}"
