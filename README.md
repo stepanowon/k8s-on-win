@@ -141,7 +141,7 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 
 #### 공식문서
 https://metallb.universe.tf/installation/
-
+* 설정 작업은 maser 노드에서 진행합니다.
 
 #### kube-proxy의 strictARP 설정값을 true로 변경
 
@@ -151,6 +151,7 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 
 #### yaml 파일 이용해 metalLB 설치
 ```sh
+# master 노드에서 실행
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
 ```
 
