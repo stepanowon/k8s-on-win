@@ -3,7 +3,8 @@
 [VirtualBox](https://www.virtualbox.org/)와 [Vagrant](https://www.vagrantup.com/) 최신 버전을 여러개의 VM을 실행할 수 있는 충분한 메모리를 가진 로컬 컴퓨터에 설치합니다. 
 * virtualbox는 반드시 확장팩까지 설치합니다.
 
-## 기본 설치 사항 : k8s v1.30 기준 --> k8s v1.33 설치 문서는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)에 
+## 기본 설치 사항 : k8s v1.30 기준 -> 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)로 
+-> 1.33 버전 설치는 여기로
 - ubuntu-24.04
 - node
   * master : 192.168.56.201 - 2vcpu, 4GB Memory
