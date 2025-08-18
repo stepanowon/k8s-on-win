@@ -10,8 +10,8 @@
   * worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
   * worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
   * worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
-- 설치된 소프트웨어 : git, containerd, kubeadm  
-  * kubeadm 도구를 이용해 k8s 구성
+- 설치된 소프트웨어 : git, containerd, kubeadm v1.33
+  * kubeadm v1.33 도구를 이용해 k8s 구성
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
@@ -50,6 +50,12 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # kubectl 도구가 설치된 다른 컴퓨터를 이용하고 싶다면 ~/.kube/config 파일을 복사하여 사용함
+# kubectl 도구 클라이언트 컴퓨터에 설치(리눅스)
+```sh
+curl -LO https://dl.k8s.io/release/v1.33.0/bin/linux/amd64/kubectl
+sudoinstall -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+rm kubectl
+```
 
 # kubectl 자동완성 기능과 kubectl --> k로 사용하기
 sudo apt install bash-completion
@@ -66,7 +72,7 @@ source ~/.bashrc
 
 ```sh
 ## calico CNI 설치
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.3/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.5/manifests/tigera-operator.yaml
 kubectl create -f ~/vagrant/conf/calico-resources.yaml
 
 ## 설치 확인
@@ -144,7 +150,7 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 ```
 
 ---
-## metalLB 설치 (v0.14.8 기준)
+## metalLB 설치 (v0.15.2 기준)
 
 #### 공식문서
 https://metallb.universe.tf/installation/
@@ -159,7 +165,7 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 #### yaml 파일 이용해 metalLB 설치
 ```sh
 # master 노드에서 실행
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 ```
 
 #### 설치된 metalLB 요소 확인
