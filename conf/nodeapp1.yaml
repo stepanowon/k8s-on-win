@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp-path1
+  namespace: default
+  labels:
+    app: nodeapp1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodeapp1
+  template:
+    metadata:
+      name: nodeapp-path1
+      labels:
+        app: nodeapp1
+    spec:
+      containers:
+      - name: nodeapp1
+        image: stepanowon/nodeapp-path1:1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nodeapp1
+  namespace: default
+  labels:
+    app: nodeapp1
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: nodeapp1
+
+
+
+
