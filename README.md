@@ -57,6 +57,7 @@ rm kubectl
 ```
 
 # kubectl 자동완성 기능과 kubectl --> k로 사용하기
+```sh
 sudo apt install bash-completion
 source /usr/share/bash-completion/bash_completion
 
