@@ -56,7 +56,7 @@ sudoinstall -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl
 ```
 
-# kubectl 자동완성 기능과 kubectl --> k로 사용하기
+## kubectl 자동완성 기능과 kubectl --> k로 사용하기
 ```sh
 sudo apt install bash-completion
 source /usr/share/bash-completion/bash_completion
@@ -68,7 +68,7 @@ echo 'complete -F __start_kubectl k' >>~/.bashrc
 source ~/.bashrc
 ```
 
-#### [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함. 
+## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함. 
 
 ```sh
 ## calico CNI 설치
