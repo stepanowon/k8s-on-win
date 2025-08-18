@@ -3,15 +3,15 @@
 [VirtualBox](https://www.virtualbox.org/)와 [Vagrant](https://www.vagrantup.com/) 최신 버전을 여러개의 VM을 실행할 수 있는 충분한 메모리를 가진 로컬 컴퓨터에 설치합니다. 
 * virtualbox는 반드시 확장팩까지 설치합니다.
 
-## 기본 설치 사항
+## 기본 설치 사항 : k8s v1.30 기준 --> k8s v1.33 설치 문서는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)에 
 - ubuntu-24.04
 - node
   * master : 192.168.56.201 - 2vcpu, 4GB Memory
   * worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
   * worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
   * worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
-- 설치된 소프트웨어 : git, containerd, kubeadm  
-  * kubeadm 도구를 이용해 k8s 구성
+- 설치된 소프트웨어 : git, containerd, kubeadm  v1.30 
+  * kubeadm v1.30 도구를 이용해 k8s 구성
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
