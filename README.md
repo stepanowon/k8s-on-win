@@ -19,12 +19,14 @@
 # 설치 방법
 
 ## 기본 환경 설치
+* Git 도구 설치 : 설치 방법 생략
 * Oracle VirtualBox 설치 - https://www.virtualbox.org
 * Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
 ```sh
 # github repo에서 vagrantfile을 내려받아 설치
 git clone https://github.com/stepanowon/k8s-on-win
 cd k8s-on-win
+git switch v1.33
 vagrant up
 
 # 설치가 완료된 후 reload
