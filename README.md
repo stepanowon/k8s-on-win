@@ -382,6 +382,26 @@ kubectl delete -f ~/vagrant/conf/nodeapp2.yaml
 kubectl delete -f ~/vagrant/conf/nodeapp-ingress.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.1/deploy/static/provider/baremetal/deploy.yaml
 
+# 설치 확인
+$ kubectl get all -n ingress-nginx
+NAME                                           READY   STATUS      RESTARTS   AGE
+pod/ingress-nginx-admission-create-xwll5       0/1     Completed   0          28s
+pod/ingress-nginx-admission-patch-6kp5x        0/1     Completed   1          28s
+pod/ingress-nginx-controller-548946fc6-xzs2j   1/1     Running     0          28s
+
+NAME                                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+service/ingress-nginx-controller             NodePort    10.110.86.20     <none>        80:30262/TCP,443:32420/TCP   29s
+service/ingress-nginx-controller-admission   ClusterIP   10.110.172.255   <none>        443/TCP                      29s
+
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ingress-nginx-controller   1/1     1            1           29s
+
+NAME                                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/ingress-nginx-controller-548946fc6   1         1         1       29s
+
+NAME                                       STATUS     COMPLETIONS   DURATION   AGE
+job.batch/ingress-nginx-admission-create   Complete   1/1           7s         28s
+job.batch/ingress-nginx-admission-patch    Complete   1/1           8s         28s
 ```
 
 ## Control Plane 추가 방법
