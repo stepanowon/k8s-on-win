@@ -53,7 +53,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # kubectl 도구가 설치된 다른 컴퓨터를 이용하고 싶다면 ~/.kube/config 파일을 복사하여 사용함
 # kubectl 도구 클라이언트 컴퓨터에 설치(우분투 리눅스 기준)
-curl -LO https://dl.k8s.io/release/v1.33.0/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/release/v1.33.4/bin/linux/amd64/kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl
 ```
