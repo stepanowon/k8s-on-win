@@ -1,17 +1,19 @@
 # 로컬 머신에 멀티노드 k8s 클러스터 만들기
 
-[VirtualBox](https://www.virtualbox.org/)와 [Vagrant](https://www.vagrantup.com/) 최신 버전을 여러개의 VM을 실행할 수 있는 충분한 메모리를 가진 로컬 컴퓨터에 설치합니다. 
-* virtualbox는 반드시 확장팩까지 설치합니다.
+[VirtualBox](https://www.virtualbox.org/)와 [Vagrant](https://www.vagrantup.com/) 최신 버전을 여러개의 VM을 실행할 수 있는 충분한 메모리를 가진 로컬 컴퓨터에 설치합니다.
 
-## 기본 설치 사항
+- virtualbox는 반드시 확장팩까지 설치합니다.
+
+## 기본 설치 사항 : k8s 1.33
+
 - ubuntu-24.04
 - node
-  * master : 192.168.56.201 - 2vcpu, 4GB Memory
-  * worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
-  * worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
-  * worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
+  - master : 192.168.56.201 - 2vcpu, 4GB Memory
+  - worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
+  - worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
+  - worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
 - 설치된 소프트웨어 : git, containerd, kubeadm v1.33
-  * kubeadm v1.33 도구를 이용해 k8s 구성
+  - kubeadm v1.33 도구를 이용해 k8s 구성
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
@@ -19,9 +21,11 @@
 # 설치 방법
 
 ## 기본 환경 설치
-* Git 도구 설치 : 설치 방법 생략
-* Oracle VirtualBox 설치 - https://www.virtualbox.org
-* Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
+
+- Git 도구 설치 : 설치 방법 생략
+- Oracle VirtualBox 설치 - https://www.virtualbox.org
+- Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
+
 ```sh
 # github repo에서 vagrantfile을 내려받아 설치
 git clone https://github.com/stepanowon/k8s-on-win
@@ -38,10 +42,12 @@ sudo apt-get install -y virtualbox-ext-pack
 ```
 
 ## Control Plane 역할의 VM(마스터) 초기화
+
 ```sh
 # ssh 로 접속. user1/asdf 로 로그인
 ssh user1@192.168.56.201
 ```
+
 ```sh
 # kubeadm을 이용한 k8s cluster 초기화
 sudo kubeadm init --apiserver-advertise-address=192.168.56.201 --pod-network-cidr=10.244.0.0/16
@@ -59,6 +65,7 @@ rm kubectl
 ```
 
 ## kubectl 자동완성 기능과 kubectl --> k로 사용하기
+
 ```sh
 sudo apt install bash-completion
 source /usr/share/bash-completion/bash_completion
@@ -70,7 +77,7 @@ echo 'complete -F __start_kubectl k' >>~/.bashrc
 source ~/.bashrc
 ```
 
-## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함. 
+## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함.
 
 ```sh
 ## calico CNI 설치
@@ -103,6 +110,7 @@ tigera-operator    tigera-operator-576646c5b6-6h5t5           1/1     Running   
 $ ssh user1@192.168.56.202
 
 ```
+
 ```sh
 # 마스터에서 kubeadm init 명령어 수행후 콘솔에 출력된 join 명령어를 실행함. 형식은 다음과 같음
 $ sudo kubeadm join 192.168.56.201:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
@@ -115,6 +123,7 @@ $ sudo kubeadm join 192.168.56.201:6443 --token <token> --discovery-token-ca-cer
 ```
 
 #### 로컬 컴퓨터에 3노드 k8s 클러스터 구성 완료 확인
+
 ```sh
 # master 접속
 $ ssh user1@192.168.56.201
@@ -152,11 +161,14 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 ```
 
 ---
+
 ## metalLB 설치 (v0.15.2 기준)
 
 #### 공식문서
+
 https://metallb.universe.tf/installation/
-* 설정 작업은 maser 노드에서 진행합니다.
+
+- 설정 작업은 maser 노드에서 진행합니다.
 
 #### kube-proxy의 strictARP 설정값을 true로 변경
 
@@ -165,12 +177,14 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 ```
 
 #### yaml 파일 이용해 metalLB 설치
+
 ```sh
 # master 노드에서 실행
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 ```
 
 #### 설치된 metalLB 요소 확인
+
 ```sh
 $ kubectl get all -n metallb-system
 NAME                              READY   STATUS    RESTARTS      AGE
@@ -193,6 +207,7 @@ replicaset.apps/controller-6dd967fdc7   1         1         1       34m=
 ```
 
 #### External IP로 사용할 IP Address Pool 과 L2 Advertisement 설정
+
 ```sh
 $ cat ~/vagrant/conf/ip-addr-pool.yaml
 apiVersion: metallb.io/v1beta1
@@ -212,10 +227,10 @@ metadata:
   name: example
 spec:
   ipAddressPools:
-  - metallb-ip-pool	    #직전 설정한 ip-pool 객체 지정	
+  - metallb-ip-pool	    #직전 설정한 ip-pool 객체 지정
   nodeSelectors:	      # ip-pool을 이용해 접근하는 노드 지정 worker1, worker2 지정
   - matchLabels:
-      kubernetes.io/hostname: worker1		
+      kubernetes.io/hostname: worker1
   - matchLabels:
       kubernetes.io/hostname: worker2
 
@@ -223,6 +238,7 @@ $ kubectl apply -f ~/vagrant/conf/ip-addr-pool.yaml
 ```
 
 #### LoadBalancer 테스트
+
 ```sh
 $ kubectl apply -f ~/vagrant/conf/deployment.yaml
 $ kubectl apply -f ~/vagrant/conf/svc-lb.yaml
@@ -257,19 +273,24 @@ $ curl http://192.168.56.51
 ```
 
 #### 테스트용 deployment, sercice 삭제
+
 ```sh
 $ kubectl delete -f ~/vagrant/conf/deployment.yaml
 $ kubectl delete -f ~/vagrant/conf/svc-lb.yaml
 ```
+
 ---
 
 ## Ingress NGINX controller 테스트
 
 [https://kubernetes.github.io/ingress-nginx/deploy/baremetal](https://kubernetes.github.io/ingress-nginx/deploy/baremetal).
+
 #### 미리 설치할 것
-* metalLB가 설치되어 있어야 함
+
+- metalLB가 설치되어 있어야 함
 
 #### ingress-nginx-controller 설치
+
 ```sh
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.1/deploy/static/provider/baremetal/deploy.yaml
 
@@ -296,6 +317,7 @@ job.batch/ingress-nginx-admission-patch    Complete   1/1           8s         2
 ```
 
 #### ingress-nginx-controller의 Service Type을 LoadBalancer로 변경
+
 ```sh
 # 변경
 ### Linux
@@ -312,6 +334,7 @@ ingress-nginx-controller-admission   ClusterIP      10.110.172.255   <none>     
 ```
 
 #### Host 컴퓨터 또는 master 노드의 hosts 파일에 EXTERNAL-IP에 대한 hostname 등록
+
 ```sh
 # 윈도우 : c:\windows\system32\drivers\etc\hosts 파일을 관리자 권한으로 변경
 # 리눅스 또는 맥 : sudo vi /etc/hosts
@@ -320,6 +343,7 @@ $ sudo vi /etc/hosts
 ```
 
 #### Service, Deployment 실행
+
 ```sh
 # nodeapp1.yaml : /path1/* 패턴에 대한 요청 처리 애플리케이션
 # nodeapp2.yaml : /path2/* 패턴에 대한 요청 처리 애플리케이션
@@ -361,6 +385,7 @@ $ kubectl apply -f ~/vagrant/conf/nodeapp-ingress.yaml
 ```
 
 #### hosts 파일을 등록한 Host 또는 master 노드에서 다음과 같이 요청해보기
+
 ```sh
 $ curl http://demo.example.com/path1/abc
   <div style="background-color:aqua">
@@ -378,6 +403,7 @@ $ curl http://demo.example.com/path2/abc
 ```
 
 #### 리소스 삭제
+
 ```sh
 kubectl delete -f ~/vagrant/conf/nodeapp1.yaml
 kubectl delete -f ~/vagrant/conf/nodeapp2.yaml
@@ -407,11 +433,15 @@ job.batch/ingress-nginx-admission-patch    Complete   1/1           8s         2
 ```
 
 ## Control Plane 추가 방법
+
 #### 필수 요구 사항
-* control plane으로 추가할 노드는 2vcpu, 2GB Memory 이상이어야 함
+
+- control plane으로 추가할 노드는 2vcpu, 2GB Memory 이상이어야 함
 
 #### 기존 master 노드에서 certificate key 생성
-* 아래 예시에서 생성된 key : f233b68f4......
+
+- 아래 예시에서 생성된 key : f233b68f4......
+
 ```
 $ sudo kubeadm init phase upload-certs --upload-certs
 I1227 01:17:29.641399    7727 version.go:256] remote version is much newer: v1.32.0; falling back to: stable-1.30
@@ -421,6 +451,7 @@ f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e
 ```
 
 #### Token 생성
+
 ```
 # 앞에서 생성한 certificate key를 이용해 token 생성하고 join command 생성
 $ kubeadm token create --certificate-key  f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e --print-join-command
@@ -429,6 +460,7 @@ kubeadm join 192.168.56.201:6443 --token rumtky.nkn0bjh0po0yxu9u --discovery-tok
 ```
 
 #### control plane 추가 : 추가할 노드에서 실행
+
 ```
 # 앞에서 생성한 kubeadm join 명령문을 sudo 로 실행함
 $ sudo kubeadm join 192.168.56.201:6443 --token rumtky.nkn0bjh0po0yxu9u --discovery-token-ca-cert-hash sha256:e002bd962b51c94a6eba26d37b93ee08c3717c53505309cb54eab7ece864160d --control-plane --certificate-key f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e
