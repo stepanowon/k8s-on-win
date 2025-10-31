@@ -4,7 +4,7 @@
 
 - virtualbox는 반드시 확장팩까지 설치합니다.
 
-## 기본 설치 사항 : k8s v1.30 기준 -> 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)로
+## 기본 설치 사항 : k8s 1.34
 
 - ubuntu-24.04
 - node
