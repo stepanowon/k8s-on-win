@@ -44,7 +44,7 @@ mkdir -p /etc/containerd
 containerd config default | tee ${CONTAINERD_CONFIG_FILE} 
 sed -i 's/^\(\s*SystemdCgroup\)\s*=\s*false$/\1 = true/' ${CONTAINERD_CONFIG_FILE}
 grep 'SystemdCgroup' ${CONTAINERD_CONFIG_FILE}
-sed -i 's|^\(\s*sandbox_image\)\s*=\s*\(.*\)$|\1 = "registry.k8s.io/pause:3.9"|' ${CONTAINERD_CONFIG_FILE}
+sed -i 's|^\(\s*sandbox_image\)\s*=\s*\(.*\)$|\1 = "registry.k8s.io/pause:3.10.1"|' ${CONTAINERD_CONFIG_FILE}
 grep 'sandbox_image' ${CONTAINERD_CONFIG_FILE}
 
 systemctl restart containerd
