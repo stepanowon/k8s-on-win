@@ -12,7 +12,7 @@
   - worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
   - worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
   - worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
-- 설치된 소프트웨어 : git, containerd, kubeadm v1.30
+- 설치된 소프트웨어 : git, containerd, kubeadm
   - kubeadm v1.34 도구를 이용해 k8s 구성
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
