@@ -6,11 +6,6 @@
 
 ## 현재 문서 : k8s v1.30 기준 설치
 
-### 다른 k8s 버전
-
-- 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)
-- 1.34 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.34)
-
 ### 설치 내역
 
 - ubuntu-24.04
