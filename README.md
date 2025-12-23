@@ -4,14 +4,14 @@
 
 - virtualbox는 반드시 확장팩까지 설치합니다.
 
-## 현재 문서 : k8s v1.30 기준 설치
+## 기본 설치 사항 : k8s 1.34
 
-### 다른 k8s 버전
+## 다른 버전 이용
 
+- 1.30 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.30)
 - 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)
-- 1.34 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.34)
 
-### 설치 내역
+## 1.34 설치
 
 - ubuntu-24.04
 - node
@@ -19,8 +19,8 @@
   - worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
   - worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
   - worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
-- 설치된 소프트웨어 : git, containerd, kubeadm v1.30
-  - kubeadm v1.30 도구를 이용해 k8s 구성
+- 설치된 소프트웨어 : git, containerd, kubeadm
+  - kubeadm v1.34 도구를 이용해 k8s 구성
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
@@ -79,7 +79,7 @@ source ~/.bashrc
 
 ```sh
 ## calico CNI 설치
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.5/manifests/tigera-operator.yaml
 kubectl create -f ~/vagrant/conf/calico-resources.yaml
 
 ## 설치 확인
@@ -128,9 +128,9 @@ $ ssh user1@192.168.56.201
 
 $ kubectl get nodes
 NAME      STATUS   ROLES           AGE     VERSION
-master    Ready    control-plane   7m14s   v1.30.7
-worker1   Ready    <none>          5m53s   v1.30.7
-worker2   Ready    <none>          3m41s   v1.30.7
+master    Ready    control-plane   7m14s   v1.34.1
+worker1   Ready    <none>          5m53s   v1.34.1
+worker2   Ready    <none>          3m41s   v1.34.1
 
 # calico CNI, worker1, worker2 설치 확인
 $ kubectl get pods --all-namespaces
@@ -160,7 +160,7 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 
 ---
 
-## metalLB 설치 (v0.14.8 기준)
+## metalLB 설치 (v0.15.2 기준)
 
 #### 공식문서
 
@@ -178,7 +178,7 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 
 ```sh
 # master 노드에서 실행
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 ```
 
 #### 설치된 metalLB 요소 확인
