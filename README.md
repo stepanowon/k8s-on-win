@@ -290,7 +290,7 @@ $ kubectl delete -f ~/vagrant/conf/svc-lb.yaml
 #### ingress-nginx-controller 설치
 
 ```sh
-$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.3/deploy/static/provider/baremetal/deploy.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.14.1/deploy/static/provider/baremetal/deploy.yaml
 
 # 설치 확인
 $ kubectl get all -n ingress-nginx
