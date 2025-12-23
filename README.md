@@ -407,7 +407,7 @@ kubectl delete -f ~/vagrant/conf/nodeapp1.yaml
 kubectl delete -f ~/vagrant/conf/nodeapp2.yaml
 kubectl delete -f ~/vagrant/conf/nodeapp-ingress.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.14.1/deploy/static/provider/baremetal/deploy.yaml
-
+kubectl delete namespaces ingress-nginx
 ```
 
 ## Control Plane 추가 방법
