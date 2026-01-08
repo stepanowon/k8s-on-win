@@ -283,6 +283,8 @@ $ kubectl delete -f ~/vagrant/conf/svc-lb.yaml
 
 [https://kubernetes.github.io/ingress-nginx/deploy/baremetal](https://kubernetes.github.io/ingress-nginx/deploy/baremetal).
 
+- 2026년 3월에 기술지원 종료 예정
+
 #### 미리 설치할 것
 
 - metalLB가 설치되어 있어야 함
@@ -331,15 +333,6 @@ ingress-nginx-controller             LoadBalancer   10.110.86.20     192.168.56.
 ingress-nginx-controller-admission   ClusterIP      10.110.172.255   <none>          443/TCP                      5m27s
 ```
 
-#### Host 컴퓨터 또는 master 노드의 hosts 파일에 EXTERNAL-IP에 대한 hostname 등록
-
-```sh
-# 윈도우 : c:\windows\system32\drivers\etc\hosts 파일을 관리자 권한으로 변경
-# 리눅스 또는 맥 : sudo vi /etc/hosts
-$ sudo vi /etc/hosts
-192.168.56.51   demo.example.com
-```
-
 #### Service, Deployment 실행
 
 ```sh
@@ -360,7 +353,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: demo.example.com
+  # external ip를 적용함
+  - host: demo.192.168.56.51.nip.io
     http:
       paths:
       - pathType: ImplementationSpecific
@@ -385,14 +379,14 @@ $ kubectl apply -f ~/vagrant/conf/nodeapp-ingress.yaml
 #### hosts 파일을 등록한 Host 또는 master 노드에서 다음과 같이 요청해보기
 
 ```sh
-$ curl http://demo.example.com/path1/abc
+$ curl http://demo.192.168.56.51.nip.io/path1/abc
   <div style="background-color:aqua">
     <h2> nodeapp-path1</h2>
     <h2> 호스트명 : nodeapp-path1-84c8cb66df-zglw2 </h2>
     <h2> 요청경로 : abc </h2>
   </div>
 
-$ curl http://demo.example.com/path2/abc
+$ curl http://demo.192.168.56.51.nip.io/path2/abc
   <div style="background-color:yellow">
     <h2> nodeapp-path2</h2>
     <h2> 호스트명 : nodeapp-path2-7c48f69bb5-x6rkm </h2>
@@ -409,6 +403,129 @@ kubectl delete -f ~/vagrant/conf/nodeapp-ingress.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.14.1/deploy/static/provider/baremetal/deploy.yaml
 kubectl delete namespaces ingress-nginx
 ```
+
+---
+
+## haproxy ingress controller 테스트
+
+#### 미리 설치할 것
+
+- metalLB가 설치되어 있어야 함
+- helm 도구를 클라이언트에 설치해야 함
+
+```
+# helm 클라이언트 설치
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+#### haproxy-ingress-controller 설치
+
+```
+# haproxy-controller 네임스페이스에 haproxy-ingress-controller 설치
+# service 타입을 LB로 설정하고 LB의 IP 주소를 192.168.56.60으로 설정. 이를 위해 metalLB가 미리 설정되어야 함
+helm upgrade -i -n haproxy-controller haproxy-ingress haproxytech/kubernetes-ingress \
+  --set controller.service.type=LoadBalancer \
+  --set controller.service.loadBalancerIP=192.168.56.60 \
+  --set controller.ingressClass=haproxy \
+  --set controller.ingressClassResource.name=haproxy \
+  --set controller.ingressClassResource.enabled=true
+
+# 설치된 구성요소 확인
+kubectl get all -n haproxy-controller
+
+```
+
+#### Service, Deployment 설치
+
+```sh
+kubectl apply -f ~/vagrant/conf/nodeapp1.yaml
+kubectl apply -f ~/vagrant/conf/nodeapp2.yaml
+```
+
+#### Ingress 설치
+
+```sh
+# haproxy-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: path1-ingress
+  annotations:
+    haproxy.org/path-rewrite: "/path1/(.*) /\\1"
+spec:
+  ingressClassName: haproxy
+  rules:
+    - host: demo.192.168.56.60.nip.io
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /path1/
+            backend:
+              service:
+                name: svc-nodeapp1
+                port:
+                  number: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: path2-ingress
+  annotations:
+    haproxy.org/path-rewrite: "/path2/(.*) /\\1"
+spec:
+  ingressClassName: haproxy
+  rules:
+    - host: demo.192.168.56.60.nip.io
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /path2/
+            backend:
+              service:
+                name: svc-nodeapp2
+                port:
+                  number: 8080
+
+```
+
+```sh
+# haproxy-ingress.yaml 적용
+kubectl apply -f ~/vagrant/conf/haproxy-ingress.yaml
+```
+
+#### master 노드에서 다음과 같이 요청해보기
+
+```sh
+$ curl http://demo.192.168.56.51.nip.io/path1/abc
+  <div style="background-color:aqua">
+    <h2> nodeapp-path1</h2>
+    <h2> 호스트명 : nodeapp-path1-84c8cb66df-zglw2 </h2>
+    <h2> 요청경로 : abc </h2>
+  </div>
+
+$ curl http://demo.192.168.56.51.nip.io/path2/abc
+  <div style="background-color:yellow">
+    <h2> nodeapp-path2</h2>
+    <h2> 호스트명 : nodeapp-path2-7c48f69bb5-x6rkm </h2>
+    <h2> 요청경로 : abc </h2>
+  </div>
+```
+
+#### 리소스 정리
+
+```sh
+kubectl delete -f ~/vagrant/conf/haproxy-ingress.yaml
+
+kubectl delete -f ~/vagrant/conf/nodeapp1.yaml
+kubectl delete -f ~/vagrant/confnodeapp2.yaml
+
+helm uninstall haproxy-ingress -n haproxy-controller
+kubectl delete namespaces haproxy-controller
+```
+
+---
 
 ## Control Plane 추가 방법
 
