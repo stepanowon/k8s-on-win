@@ -498,14 +498,14 @@ kubectl apply -f ~/vagrant/conf/haproxy-ingress.yaml
 #### master 노드에서 다음과 같이 요청해보기
 
 ```sh
-$ curl http://demo.192.168.56.51.nip.io/path1/abc
+$ curl http://demo.192.168.56.60.nip.io/path1/abc
   <div style="background-color:aqua">
     <h2> nodeapp-path1</h2>
     <h2> 호스트명 : nodeapp-path1-84c8cb66df-zglw2 </h2>
     <h2> 요청경로 : abc </h2>
   </div>
 
-$ curl http://demo.192.168.56.51.nip.io/path2/abc
+$ curl http://demo.192.168.56.60.nip.io/path2/abc
   <div style="background-color:yellow">
     <h2> nodeapp-path2</h2>
     <h2> 호스트명 : nodeapp-path2-7c48f69bb5-x6rkm </h2>
