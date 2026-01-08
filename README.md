@@ -423,8 +423,13 @@ chmod 700 get_helm.sh
 #### haproxy-ingress-controller 설치
 
 ```
+# helm repo 추가
+helm repo add haproxytech https://haproxytech.github.io/helm-charts
+helm repo update
+
 # haproxy-controller 네임스페이스에 haproxy-ingress-controller 설치
 # service 타입을 LB로 설정하고 LB의 IP 주소를 192.168.56.60으로 설정. 이를 위해 metalLB가 미리 설정되어야 함
+kubectl create ns haproxy-controller
 helm upgrade -i -n haproxy-controller haproxy-ingress haproxytech/kubernetes-ingress \
   --set controller.service.type=LoadBalancer \
   --set controller.service.loadBalancerIP=192.168.56.60 \
