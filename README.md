@@ -519,7 +519,7 @@ $ curl http://demo.192.168.56.60.nip.io/path2/abc
 kubectl delete -f ~/vagrant/conf/haproxy-ingress.yaml
 
 kubectl delete -f ~/vagrant/conf/nodeapp1.yaml
-kubectl delete -f ~/vagrant/confnodeapp2.yaml
+kubectl delete -f ~/vagrant/conf/nodeapp2.yaml
 
 helm uninstall haproxy-ingress -n haproxy-controller
 kubectl delete namespaces haproxy-controller
