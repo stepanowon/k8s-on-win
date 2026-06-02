@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: demo.example.com
+  - host: demo.192.168.56.51.nip.io
     http:
       paths:
       - pathType: ImplementationSpecific
