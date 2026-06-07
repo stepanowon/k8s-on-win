@@ -530,38 +530,3 @@ helm uninstall haproxy-ingress -n haproxy-controller
 kubectl delete namespaces haproxy-controller
 ```
 
----
-
-## Control Plane 추가 방법
-
-#### 필수 요구 사항
-
-- control plane으로 추가할 노드는 2vcpu, 2GB Memory 이상이어야 함
-
-#### 기존 master 노드에서 certificate key 생성
-
-- 아래 예시에서 생성된 key : f233b68f4......
-
-```
-$ sudo kubeadm init phase upload-certs --upload-certs
-I1227 01:17:29.641399    7727 version.go:256] remote version is much newer: v1.32.0; falling back to: stable-1.30
-[upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
-[upload-certs] Using certificate key:
-f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e
-```
-
-#### Token 생성
-
-```
-# 앞에서 생성한 certificate key를 이용해 token 생성하고 join command 생성
-$ kubeadm token create --certificate-key  f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e --print-join-command
-
-kubeadm join 192.168.56.201:6443 --token rumtky.nkn0bjh0po0yxu9u --discovery-token-ca-cert-hash sha256:e002bd962b51c94a6eba26d37b93ee08c3717c53505309cb54eab7ece864160d --control-plane --certificate-key f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e
-```
-
-#### control plane 추가 : 추가할 노드에서 실행
-
-```
-# 앞에서 생성한 kubeadm join 명령문을 sudo 로 실행함
-$ sudo kubeadm join 192.168.56.201:6443 --token rumtky.nkn0bjh0po0yxu9u --discovery-token-ca-cert-hash sha256:e002bd962b51c94a6eba26d37b93ee08c3717c53505309cb54eab7ece864160d --control-plane --certificate-key f233b68f4c1ba881553aad28737a594c3fe181d59f1d9c0883e04c4ef33e893e
-```
