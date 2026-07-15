@@ -4,12 +4,13 @@
 
 - virtualbox는 반드시 확장팩까지 설치합니다.
 
-## 기본 설치 사항 : k8s 1.34
+## 기본 설치 사항 : k8s 1.36
 
 ## 다른 버전 이용
 
 - 1.30 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.30)
 - 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)
+- 1.34 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.34)
 
 ## 1.34 설치
 
@@ -79,7 +80,7 @@ source ~/.bashrc
 
 ```sh
 ## calico CNI 설치
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.5/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
 kubectl create -f ~/vagrant/conf/calico-resources.yaml
 
 ## 설치 확인
@@ -160,7 +161,7 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 
 ---
 
-## metalLB 설치 (v0.15.2 기준)
+## metalLB 설치 (v0.16.1 기준)
 
 #### 공식문서
 
@@ -178,7 +179,7 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 
 ```sh
 # master 노드에서 실행
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.16.1/config/manifests/metallb-native.yaml
 ```
 
 #### 설치된 metalLB 요소 확인
@@ -529,4 +530,3 @@ kubectl delete -f ~/vagrant/conf/nodeapp2.yaml
 helm uninstall haproxy-ingress -n haproxy-controller
 kubectl delete namespaces haproxy-controller
 ```
-
