@@ -12,7 +12,7 @@
 - 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)
 - 1.34 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.34)
 
-## 1.34 설치
+## 1.36 설치
 
 - ubuntu-24.04
 - node
