@@ -4,6 +4,15 @@
 
 - virtualbox는 반드시 확장팩까지 설치합니다.
 
+## 클라이언트 도구 설정 방법
+
+- [윈도우 사용자를 위한 클라이언트 도구 설정 가이드](client-setup.md)
+- 설치하는 도구
+  - kubectl
+  - argocd cli
+  - kubectl argo rollouts
+  - helm
+
 ## 기본 설치 사항 : k8s 1.36
 
 ## 다른 버전 이용
