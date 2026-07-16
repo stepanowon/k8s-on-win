@@ -129,9 +129,9 @@ $ ssh user1@192.168.56.201
 
 $ kubectl get nodes
 NAME      STATUS   ROLES           AGE     VERSION
-master    Ready    control-plane   7m14s   v1.34.1
-worker1   Ready    <none>          5m53s   v1.34.1
-worker2   Ready    <none>          3m41s   v1.34.1
+master    Ready    control-plane   7m14s   v1.36.1
+worker1   Ready    <none>          5m53s   v1.36.1
+worker2   Ready    <none>          3m41s   v1.36.1
 
 # calico CNI, worker1, worker2 설치 확인
 $ kubectl get pods --all-namespaces
