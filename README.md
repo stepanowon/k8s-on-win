@@ -21,7 +21,7 @@
   - worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
   - worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
 - 설치된 소프트웨어 : git, containerd, kubeadm
-  - kubeadm v1.34 도구를 이용해 k8s 구성
+  - kubeadm v1.36 도구를 이용해 k8s 구성
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
