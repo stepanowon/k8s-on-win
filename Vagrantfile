@@ -33,6 +33,10 @@ Vagrant.configure("2") do |config|
   shell_provision_configs = [
     {
       "name" => "set-host",
+      "path" => "scripts/disable-ipv6.sh"
+    },
+    {
+      "name" => "set-host",
       "path" => "scripts/set-host.sh"
     },
     {
