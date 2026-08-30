@@ -98,7 +98,7 @@ ssh user1@192.168.56.204
 # 마스터에서 kubeadm init 명령어 수행후 콘솔에 출력된 join 명령어 앞에 sudo를 붙여서 실행함. 형식은 다음과 같음
 $ sudo kubeadm join 192.168.56.201:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 
-# 만일 token과 hash 값을 알수 없다면 다음 명령어 실행하여 확인
+# 만일 token과 hash 값을 알수 없다면 master에서 다음 명령어 실행하여 확인
 # kubeadm token list
 # kubeadm token create --print-join-command
 
