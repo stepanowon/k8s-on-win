@@ -8,10 +8,10 @@
 ## 목차
 
 - [클라이언트 도구 설정 방법](#클라이언트-도구-설정-방법)
-- [기본 설치 사항 : k8s 1.36](#기본-설치-사항--k8s-136)
-- [metalLB 설치 (v0.16.1 기준)](#metallb-설치-v0161-기준)
-- [Ingress NGINX controller 테스트](#ingress-nginx-controller-테스트)
-- [haproxy ingress controller 테스트](#haproxy-ingress-controller-테스트)
+- [k8s 설치](#기본-설치-사항--k8s-136)
+- [metalLB 설치](#metallb-설치-v0161-기준)
+- [Ingress NGINX controller](#ingress-nginx-controller-테스트)
+- [haproxy ingress controller](#haproxy-ingress-controller-테스트)
 
 ## 클라이언트 도구 설정 방법
 
