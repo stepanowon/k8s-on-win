@@ -182,23 +182,24 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.16.1/confi
 
 ```sh
 $ kubectl get all -n metallb-system
-NAME                              READY   STATUS    RESTARTS      AGE
-pod/controller-6dd967fdc7-jdcgq   1/1     Running   0             34m
-pod/speaker-ftfwm                 1/1     Running   0             34m
-pod/speaker-vddww                 1/1     Running   0             34m
-pod/speaker-x72gz                 1/1     Running   0             34m
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/controller-658745d67-bnz4q   1/1     Running   0          97s
+pod/speaker-2qbqw                1/1     Running   0          97s
+pod/speaker-blsq2                1/1     Running   0          97s
+pod/speaker-hkjzh                1/1     Running   0          97s
+pod/speaker-vls8k                1/1     Running   0          97s
 
-NAME                              TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
-service/metallb-webhook-service   ClusterIP   10.96.10.203   <none>        443/TCP   34m
+NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/metallb-webhook-service   ClusterIP   10.101.26.114   <none>        443/TCP   98s
 
 NAME                     DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/speaker   3         3         3       3            3           kubernetes.io/os=linux   34m
+daemonset.apps/speaker   4         4         4       4            4           kubernetes.io/os=linux   97s
 
 NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/controller   1/1     1            1           34m
+deployment.apps/controller   1/1     1            1           97s
 
-NAME                                    DESIRED   CURRENT   READY   AGE
-replicaset.apps/controller-6dd967fdc7   1         1         1       34m=
+NAME                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/controller-658745d67   1         1         1       97s
 ```
 
 #### External IP로 사용할 IP Address Pool 과 L2 Advertisement 설정
