@@ -317,12 +317,7 @@ job.batch/ingress-nginx-admission-patch    Complete   1/1           8s         2
 #### ingress-nginx-controller의 Service Type을 LoadBalancer로 변경
 
 ```sh
-# 변경
-### Linux
 kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"type":"LoadBalancer"}}'
-
-### Windows
-kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{\"spec\":{\"type\":\"LoadBalancer\"}}'
 
 # 변경후 EXTERNAL-IP 값 확인 (아래 예시에서는 192.168.56.51)
 $ kubectl get svc -n ingress-nginx
