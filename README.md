@@ -1,6 +1,7 @@
 # 로컬 머신에 멀티노드 k8s 클러스터 만들기
 
 [VirtualBox](https://www.virtualbox.org/)와 [Vagrant](https://www.vagrantup.com/) 최신 버전을 여러개의 VM을 실행할 수 있는 충분한 메모리를 가진 로컬 컴퓨터에 설치합니다.
+
 - virtualbox는 반드시 확장팩까지 설치합니다.
 - 이 컨텐츠는 "내 PC로 실습하는 k8s와 gitops 기반 CI/CD 자동화" 교육 과정을 위해 만들어졌습니다.
 
@@ -83,87 +84,74 @@ echo 'complete -F __start_kubectl k' >>~/.bashrc
 source ~/.bashrc
 ```
 
-## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함.
+## 작업자 노드 추가(worker1~worker3에서 수행)
+
+- 자신의 컴퓨터 용량에 따라 worker node를 2개로 줄일 수 있음
+  - 기본은 worker node 3EA 설치
 
 ```sh
-## calico CNI 설치
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
-kubectl create -f ~/vagrant/conf/calico-resources.yaml
+# worker1,2,3에서 작업
+ssh user1@192.168.56.202
+ssh user1@192.168.56.203
+ssh user1@192.168.56.204
 
-## 설치 확인
-$ kubectl get pods --all-namespaces
-NAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE
-calico-apiserver   calico-apiserver-8557fd65f-h5799           1/1     Running   0          57s
-calico-apiserver   calico-apiserver-8557fd65f-p6mw4           1/1     Running   0          57s
-calico-system      calico-kube-controllers-56fccc4788-7fjg9   1/1     Running   0          2m32s
-calico-system      calico-node-xpkbv                          1/1     Running   0          2m33s
-calico-system      calico-typha-74f5bfd6f7-z2pg5              1/1     Running   0          2m33s
-calico-system      csi-node-driver-w24hd                      2/2     Running   0          2m33s
-kube-system        coredns-55cb58b774-6ccdl                   1/1     Running   0          3m56s
-kube-system        coredns-55cb58b774-dv58v                   1/1     Running   0          3m56s
-kube-system        etcd-master                                1/1     Running   1          4m8s
-kube-system        kube-apiserver-master                      1/1     Running   1          4m8s
-kube-system        kube-controller-manager-master             1/1     Running   1          4m12s
-kube-system        kube-proxy-ddj99                           1/1     Running   0          3m56s
-kube-system        kube-scheduler-master                      1/1     Running   1          4m12s
-tigera-operator    tigera-operator-576646c5b6-6h5t5           1/1     Running   0          2m46s
-```
-
-## 작업자 노드 추가(worker1과 worker2에서 수행)
-
-```sh
-# worker1에서 작업
-$ ssh user1@192.168.56.202
-
-```
-
-```sh
-# 마스터에서 kubeadm init 명령어 수행후 콘솔에 출력된 join 명령어를 실행함. 형식은 다음과 같음
+# 마스터에서 kubeadm init 명령어 수행후 콘솔에 출력된 join 명령어 앞에 sudo를 붙여서 실행함. 형식은 다음과 같음
 $ sudo kubeadm join 192.168.56.201:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 
 # 만일 token과 hash 값을 알수 없다면 다음 명령어 실행하여 확인
 # kubeadm token list
 # kubeadm token create --print-join-command
 
-# worker2(192.168.56.203)에서도 동일하게 kubeadm join 할것
+```
+
+## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함.
+
+```sh
+## master(192.168.56.201)에 접속한 터미널에서 실행
+## calico CNI 설치
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
+## 잠시 대기 후 다음 명령어 실행
+kubectl create -f ~/vagrant/conf/calico-resources.yaml
+
+## 설치 확인 - 다음과 같은 상태가 될 때까지 대기
+$ kubectl get pods -A
+NAMESPACE         NAME                                      READY   STATUS    RESTARTS        AGE
+calico-system     calico-apiserver-5b7cddcdfb-9sl5x         1/1     Running   0               3m36s
+calico-system     calico-apiserver-5b7cddcdfb-bmxvt         1/1     Running   0               3m36s
+calico-system     calico-kube-controllers-55bd87978-nzsz4   1/1     Running   0               3m33s
+calico-system     calico-node-6b5sr                         1/1     Running   0               3m19s
+calico-system     calico-node-c5wxh                         1/1     Running   0               3m20s
+calico-system     calico-node-h6jjn                         1/1     Running   0               3m1s
+calico-system     calico-node-mzm29                         1/1     Running   0               3m20s
+calico-system     calico-typha-74b4895f4c-v2jf9             1/1     Running   0               3m35s
+calico-system     calico-typha-74b4895f4c-wlmvh             1/1     Running   0               3m33s
+calico-system     csi-node-driver-7sg6f                     2/2     Running   0               3m34s
+calico-system     csi-node-driver-9gzrz                     2/2     Running   0               3m34s
+calico-system     csi-node-driver-gccqv                     2/2     Running   0               3m34s
+calico-system     csi-node-driver-sqdbx                     2/2     Running   0               3m34s
+kube-system       coredns-589f44dc88-25cmb                  1/1     Running   0               7m34s
+kube-system       coredns-589f44dc88-6btfw                  1/1     Running   0               7m34s
+kube-system       etcd-master                               1/1     Running   0               8m6s
+kube-system       kube-apiserver-master                     1/1     Running   0               8m6s
+kube-system       kube-controller-manager-master            1/1     Running   0               8m6s
+kube-system       kube-proxy-4klwk                          1/1     Running   0               5m24s
+kube-system       kube-proxy-8zb9w                          1/1     Running   0               5m18s
+kube-system       kube-proxy-clltt                          1/1     Running   0               7m34s
+kube-system       kube-proxy-ftxb2                          1/1     Running   0               5m8s
+kube-system       kube-scheduler-master                     1/1     Running   0               8m6s
+tigera-operator   tigera-operator-57886bd678-x5pg9          1/1     Running   0               4m11s
 ```
 
 #### 로컬 컴퓨터에 3노드 k8s 클러스터 구성 완료 확인
 
 ```sh
-# master 접속
-$ ssh user1@192.168.56.201
-
+# master에 접속한 터미널에서 다음 명령어 실행
 $ kubectl get nodes
 NAME      STATUS   ROLES           AGE     VERSION
-master    Ready    control-plane   7m14s   v1.36.1
-worker1   Ready    <none>          5m53s   v1.36.1
-worker2   Ready    <none>          3m41s   v1.36.1
-
-# calico CNI, worker1, worker2 설치 확인
-$ kubectl get pods --all-namespaces
-NAMESPACE          NAME                                       READY   STATUS    RESTARTS        AGE
-calico-apiserver   calico-apiserver-7bb8b6d685-2ztrf          1/1     Running   0               80s
-calico-apiserver   calico-apiserver-7bb8b6d685-ffcss          1/1     Running   0               80s
-calico-system      calico-kube-controllers-77c5b95f97-9l9jz   1/1     Running   0               4m8s
-calico-system      calico-node-8kgkm                          1/1     Running   0               4m
-calico-system      calico-node-9b577                          1/1     Running   0               3m49s
-calico-system      calico-node-g2mng                          1/1     Running   0               3m59s
-calico-system      calico-typha-5885656b6d-9rjsn              1/1     Running   0               4m9s
-calico-system      calico-typha-5885656b6d-x7lsg              1/1     Running   0               4m7s
-calico-system      csi-node-driver-ccltk                      2/2     Running   0               4m11s
-calico-system      csi-node-driver-dkfms                      2/2     Running   0               4m11s
-calico-system      csi-node-driver-thvth                      2/2     Running   0               4m11s
-kube-system        coredns-55cb58b774-hb4bg                   1/1     Running   0               8m3s
-kube-system        coredns-55cb58b774-tmcdx                   1/1     Running   0               8m3s
-kube-system        etcd-master                                1/1     Running   0               8m15s
-kube-system        kube-apiserver-master                      1/1     Running   0               8m15s
-kube-system        kube-controller-manager-master             1/1     Running   1 (5m27s ago)   8m15s
-kube-system        kube-proxy-4rtb7                           1/1     Running   0               7m
-kube-system        kube-proxy-qjdm9                           1/1     Running   0               4m48s
-kube-system        kube-proxy-trcsp                           1/1     Running   0               8m3s
-kube-system        kube-scheduler-master                      1/1     Running   1 (5m27s ago)   8m19s
-tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   0               4m47s
+master    Ready    control-plane   10m     v1.36.4
+worker1   Ready    <none>          7m2s    v1.36.4
+worker2   Ready    <none>          6m56s   v1.36.4
+worker3   Ready    <none>          6m46s   v1.36.4
 ```
 
 ---
