@@ -5,6 +5,14 @@
 - virtualbox는 반드시 확장팩까지 설치합니다.
 - 이 컨텐츠는 "내 PC로 실습하는 k8s와 gitops 기반 CI/CD 자동화" 교육 과정을 위해 만들어졌습니다.
 
+## 목차
+
+- [클라이언트 도구 설정 방법](#클라이언트-도구-설정-방법)
+- [기본 설치 사항 : k8s 1.36](#기본-설치-사항--k8s-136)
+- [metalLB 설치 (v0.16.1 기준)](#metallb-설치-v0161-기준)
+- [Ingress NGINX controller 테스트](#ingress-nginx-controller-테스트)
+- [haproxy ingress controller 테스트](#haproxy-ingress-controller-테스트)
+
 ## 클라이언트 도구 설정 방법
 
 - [윈도우 사용자를 위한 클라이언트 도구 설정 가이드](client-setup.md)
@@ -16,13 +24,13 @@
 
 ## 기본 설치 사항 : k8s 1.36
 
-## 다른 버전 이용
+### 다른 버전 이용
 
 - 1.30 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.30)
 - 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.33)
 - 1.34 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-win/tree/v1.34)
 
-## 1.36 설치
+### 1.36 설치
 
 - ubuntu-24.04
 - node
@@ -36,9 +44,7 @@
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
 
-# 설치 방법
-
-## 기본 환경 설치
+### 기본 환경 설치
 
 - Oracle VirtualBox 설치 - https://www.virtualbox.org
 - Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
@@ -55,7 +61,7 @@ vagrant reload
 # 사용자명과 초기 패스워드 : user1/asdf
 ```
 
-## Control Plane 역할의 VM(마스터) 초기화
+### Control Plane 역할의 VM(마스터) 초기화
 
 ```sh
 # ssh 로 접속. user1/asdf 로 로그인
@@ -84,7 +90,7 @@ echo 'complete -F __start_kubectl k' >>~/.bashrc
 source ~/.bashrc
 ```
 
-## 작업자 노드 추가(worker1~worker3에서 수행)
+### 작업자 노드 추가(worker1~worker3에서 수행)
 
 - 자신의 컴퓨터 용량에 따라 worker node를 2개로 줄일 수 있음
   - 기본은 worker node 3EA 설치
@@ -104,7 +110,7 @@ $ sudo kubeadm join 192.168.56.201:6443 --token <token> --discovery-token-ca-cer
 
 ```
 
-## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함.
+### [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함.
 
 ```sh
 ## master(192.168.56.201)에 접속한 터미널에서 실행
@@ -142,7 +148,7 @@ kube-system       kube-scheduler-master                     1/1     Running   0 
 tigera-operator   tigera-operator-57886bd678-x5pg9          1/1     Running   0               4m11s
 ```
 
-#### 로컬 컴퓨터에 3노드 k8s 클러스터 구성 완료 확인
+### 로컬 컴퓨터에 3노드 k8s 클러스터 구성 완료 확인
 
 ```sh
 # master에 접속한 터미널에서 다음 명령어 실행
