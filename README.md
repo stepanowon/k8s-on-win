@@ -167,13 +167,14 @@ https://metallb.universe.tf/installation/
 #### kube-proxy의 strictARP 설정값을 true로 변경
 
 ```sh
-kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
+kubectl get configmap kube-proxy -n kube-system -o yaml | \
+  sed -e "s/strictARP: false/strictARP: true/" | \
+  kubectl apply --server-side -f -
 ```
 
 #### yaml 파일 이용해 metalLB 설치
 
 ```sh
-# master 노드에서 실행
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.16.1/config/manifests/metallb-native.yaml
 ```
 
