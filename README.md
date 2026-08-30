@@ -182,7 +182,7 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.16.1/confi
 ```sh
 $ kubectl get all -n metallb-system
 NAME                              READY   STATUS    RESTARTS      AGE
-pod/controller-6dd967fdc7-jdcgq   1/1     Running   1 (33m ago)   34m
+pod/controller-6dd967fdc7-jdcgq   1/1     Running   0             34m
 pod/speaker-ftfwm                 1/1     Running   0             34m
 pod/speaker-vddww                 1/1     Running   0             34m
 pod/speaker-x72gz                 1/1     Running   0             34m
