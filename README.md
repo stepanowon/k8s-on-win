@@ -175,7 +175,7 @@ https://metallb.universe.tf/installation/
 ```sh
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
   sed -e "s/strictARP: false/strictARP: true/" | \
-  kubectl apply --server-side -f -
+  kubectl apply -f - -n kube-system
 ```
 
 #### yaml 파일 이용해 metalLB 설치
